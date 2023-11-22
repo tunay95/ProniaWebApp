@@ -31,7 +31,8 @@ namespace ProniaWebApp.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(10)
+                        .HasColumnType("nvarchar(10)");
 
                     b.HasKey("Id");
 
@@ -85,9 +86,6 @@ namespace ProniaWebApp.Migrations
 
                     b.Property<bool>("IsPrime")
                         .HasColumnType("bit");
-
-                    b.Property<int>("ProducId")
-                        .HasColumnType("int");
 
                     b.Property<int>("ProductId")
                         .HasColumnType("int");
@@ -186,7 +184,7 @@ namespace ProniaWebApp.Migrations
             modelBuilder.Entity("ProniaWebApp.Models.ProductImg", b =>
                 {
                     b.HasOne("ProniaWebApp.Models.Product", "Product")
-                        .WithMany()
+                        .WithMany("ProductImages")
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -220,6 +218,8 @@ namespace ProniaWebApp.Migrations
 
             modelBuilder.Entity("ProniaWebApp.Models.Product", b =>
                 {
+                    b.Navigation("ProductImages");
+
                     b.Navigation("ProductsTags");
                 });
 

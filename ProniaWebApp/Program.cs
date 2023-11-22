@@ -10,7 +10,10 @@ builder.Services.AddDbContext<AppDbContext>(opt =>
 });
 
 var app = builder.Build();
-
+app.MapControllerRoute(
+            name: "areas",
+            pattern: "{area:exists}/{controller=Dashboard}/{action=Index}/{id?}"
+  );
 app.MapControllerRoute(
     name: "default",
     pattern: "{Controller=Home}/{Action=index}/{id?}"
