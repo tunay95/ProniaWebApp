@@ -20,7 +20,7 @@ namespace ProniaWebApp.Areas.Admin.Controllers
             List<Category>categories= _context.Categories.Include(p=>p.Products).ToList();
             return View(categories);
         }
-        [HttpGet]
+        
         public IActionResult Create() 
         {
             return View();
@@ -34,13 +34,14 @@ namespace ProniaWebApp.Areas.Admin.Controllers
             }
             _context.Categories.Add(category);
             _context.SaveChanges();
-            return RedirectToAction("Index");
+            return RedirectToAction("Index","Category");
         }
 
         public IActionResult Delete(int id) 
         {
             Category category=_context.Categories.Find(id);
             _context.Categories.Remove(category);
+
             _context.SaveChanges();
             return RedirectToAction("Index");
         }
