@@ -12,6 +12,6 @@ namespace ProniaWebApp.Models
         public string Description { get; set; }
         public string? ImgUrl { get; set; }
         [NotMapped]
-        public IFormFile ImageFile { get; set; }
+        public IFormFile? ImageFile { get; set; }
     }
 }
