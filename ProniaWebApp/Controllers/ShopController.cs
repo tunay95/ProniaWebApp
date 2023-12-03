@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using ProniaWebApp.DAL;
 using ProniaWebApp.Models;
+using ProniaWebApp.ViewModels;
 
 namespace ProniaWebApp.Controllers
 {
@@ -16,13 +17,22 @@ namespace ProniaWebApp.Controllers
 
         public IActionResult Detail(int? id)
         {
-            Product product=_db.Products
-                .Include(p=>p.Category)
-                .Include(p=>p.ProductImages)
-                .Include(p=>p.ProductsTags)
-                .ThenInclude(pt=>pt.Tag)
-                .FirstOrDefault(product=>product.Id == id);
-            return View(product);  
+            Product product = _db.Products
+                .Include(p => p.Category)
+                .Include(p => p.ProductImages)
+                .Include(p => p.ProductsTags)
+                .ThenInclude(pt => pt.Tag)
+                .FirstOrDefault(product => product.Id == id);
+                if (product == null)
+            {
+                return NotFound();
+            }
+            DetailVM detailVM = new DetailVM()
+            {
+                Product=product,
+                Products=_db.Products.Include(p=>p.ProductImages).Include(p=>p.Category).Where(p=>p.CategoryId==product.CategoryId&&p.Id!=product.Id).ToList()
+            };
+            return View(detailVM);  
         }
     }
 }

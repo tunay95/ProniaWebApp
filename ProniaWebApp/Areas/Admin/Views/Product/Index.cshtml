@@ -1,45 +1,61 @@
 ﻿@using ProniaWebApp.Models;
 @model List<Product>
 @{
-    int count = 0;
+	int count = 0;
 }
 <div class="container">
-    <div class="d-flex" style="justify-content:space-around;align-items:center">
-        <h1>
-            Products
-        </h1>
-        <a class="btn btn-primary" asp-controller="Product" asp-action="Create">Create</a>
+	<div class="d-flex" style="justify-content:space-around;align-items:center">
+		<h1>
+			Products
+		</h1>
+		<a class="btn btn-primary" asp-controller="Product" asp-action="Create">Create</a>
 
 
-    </div>
-    <table class="table">
-        <thead>
-            <tr>
-                <th scope="col">No#</th>
-                <th scope="col">Id</th>
-                <th scope="col">Name</th>
-                <th scope="col">Price</th>
-                <th scope="col">Category</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model)
-            {
-                count++;
-                <tr>
-                    <th scope="row">@count</th>
-                    <td>@item.Id</td>
-                    <td>@item.Name</td>
-                    <th>@item.Price</th>
-                    <th>@item.Category.Name</th>
-                    <td>
-                        <a class="btn btn-success" asp-controller="Product" asp-action="Update" asp-route-id="@item.Id">Update</a>
-                        <a class="btn btn-danger" asp-controller="Product" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-                    </td>
+	</div>
+	<span style="color:red">@TempData["Error"]</span>
+	<table class="table">
+		<thead>
+			<tr>
+				<th scope="col">No</th>
+				<th scope="col">Name</th>
+				<th scope="col">SKU</th>
+				<th scope="col">Category</th>
+				<th scope="col">Tags</th>
+				<th scope="col">Price</th>
+				<th scope="col">Images</th>
+			</tr>
+		</thead>
+		<tbody>
+			@foreach (var item in Model)
+			{
+				count++;
+				<tr>
+					<th scope="row">@count</th>
+					<td>@item.Name</td>
+					<td>@item.SKU</td>
+					<th>@item.Category.Name</th>
+					<td>
+						@foreach (var pt in item.ProductsTags)
+						{
+							@pt.Tag.Name
+
+						}
+
+					</td>
+					<th>@item.Price $</th>
+					<td>
+					<td>
+						<div style="width:100px">
+							<img width="100%" src="~/Upload/Product/@item.ProductImages.FirstOrDefault(p=>p.IsPrime==true)?.ImgUrl"/>
+						</div>
+					<td>
+						<a class="btn btn-success" asp-controller="Product" asp-action="Update" asp-route-id="@item.Id">Update</a>
+						<a class="btn btn-danger" asp-controller="Product" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+					</td>
 
 
-                </tr>
-            }
-        </tbody>
-    </table>
+				</tr>
+			}
+		</tbody>
+	</table>
 </div>

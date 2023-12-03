@@ -30,7 +30,46 @@
 					<select class="form-select" asp-for="CategoryId" asp-items="new SelectList(ViewBag.Categories,nameof(Category.Id),nameof(Category.Name))">
 						<option selected>Open this select menu</option>
 					</select>
+					<span asp-validation-for="CategoryId" style="color:red"></span>
 				</div>
+			</div>
+				<div class="mb-3 col-md-3">
+					<label asp-for="TagIds" class="form-label">TagIds</label>
+					<select class="form-select" asp-for="TagIds" asp-items="new SelectList(ViewBag.Tags,nameof(Tag.Id),nameof(Tag.Name))">
+					</select>
+					<span asp-validation-for="TagIds" style="color:red"></span>
+				</div>
+		</div>
+		<div class="row">
+			<div class="mb-3 col-md-3" >
+				<div style="width:100px;height:80px">
+				<img width="100%" src="~/Upload/Product/@Model.productImg?.FirstOrDefault(p=>p.IsPrime==true).ImgUrl" />
+				</div>
+				<label asp-for="MainPhoto" class="form-label">MainPhoto</label>
+				<input asp-for="MainPhoto" class="form-control">
+				<span asp-validation-for="MainPhoto" style="color:red"></span>
+			</div>
+			<div class="mb-3 col-md-3">
+				<div>
+				<img width="100%" src="~/Upload/Product/@Model.productImg?.FirstOrDefault(p=>p.IsPrime==false).ImgUrl" />
+				</div>
+				<label asp-for="HoverPhoto" class="form-label">HoverPhoto</label>
+				<input asp-for="HoverPhoto" class="form-control">
+				<span asp-validation-for="HoverPhoto" style="color:red"></span>
+			</div>
+		</div>
+		<div class="row">
+
+			<div class="mb-3 col-md-3">
+				
+				@foreach(var item in Model.productImg.Where(p => p.IsPrime == null).ToList())
+				{
+					<img src="~/Upload/Product/@item.ImgUrl"/>
+
+				}
+				<label asp-for="Photos" class="form-label">Additional Photos</label>
+				<input asp-for="Photos" class="form-control">
+				<span asp-validation-for="Photos" style="color:red"></span>
 			</div>
 		</div>
 		<button type="submit" class="btn btn-primary">Submit</button>
