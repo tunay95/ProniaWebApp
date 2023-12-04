@@ -37,7 +37,7 @@ namespace ProniaWebApp.Helper
 				return fileName;
 			}
 
-			public static void Delete(string ImgUrl, string envPath, string folderName)
+		public static void DeleteFile(this string ImgUrl, string envPath, string folderName)
 			{
 				string path = envPath + folderName + ImgUrl;
 				if (!File.Exists(path))

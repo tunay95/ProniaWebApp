@@ -78,11 +78,10 @@
 	</form>
 </div>
 <script>
-	var btn=document.querrySelectorAll(".custom-delete")
+	var btn=document.querySelectorAll(".custom-delete")
 	btn.forEach(b => {
-			b.addEvenListener("click", function ()
-		{
-			b.parentElemenet.remove()
+		b.addEventListener("click", function (){
+			b.parentElement.remove()
 		})
-		})
+	})
 </script>

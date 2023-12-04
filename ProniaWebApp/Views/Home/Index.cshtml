@@ -1251,7 +1251,7 @@
                         <div class="product-item-wrap row">
                             @foreach(var item in Model.Products)
                             {
-                                @if (@item.ProductImages.FirstOrDefault(p => p.IsPrime) != null)
+                                @if(item.ProductImages.FirstOrDefault(p => p.IsPrime != null)!=null)
                                 {
                                     
                                 <div class="col-xl-3 col-md-4 col-sm-6">
@@ -1259,13 +1259,13 @@
                                         <div class="product-img">
                                             <a asp-controller="Shop" asp-action="Detail" asp-route-id=@item.Id>
                                                 <img class="primary-img"
-                                                     src="~/assets/images/website-images//@item.ProductImages.FirstOrDefault(p=>p.IsPrime).ImgUrl"
-                                                     alt="Product Images" />
+                                                         src="~/Upload/Product/@item.ProductImages.FirstOrDefault(p=>p.IsPrime == true).ImgUrl"
+                                                         alt="Product Images" />
 
                                                     @if (item.ProductImages.FirstOrDefault(p => p.IsPrime == false) != null)
                                                     {
                                                         <img class="secondary-img"
-                                                             src="~/assets/images/website-images//@item.ProductImages.FirstOrDefault(p=>p.IsPrime==false).ImgUrl"
+                                                             src="~/Upload/Product/@item.ProductImages.FirstOrDefault(p=>p.IsPrime == false).ImgUrl"
                                                              alt="Product Images" />
                                                         
                                                     }

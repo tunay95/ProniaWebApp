@@ -78,7 +78,7 @@ namespace ProniaWebApp.Areas.Admin.Controllers
 				return View();
 			}
 
-			FileManager.Delete(oldSlider.ImgUrl, _environment.WebRootPath, @"\Upload\SliderImage\");
+			FileManager.DeleteFile(oldSlider.ImgUrl, _environment.WebRootPath, @"\Upload\SliderImage\");
 			newSlider.ImgUrl = newSlider.ImageFile.Upload(_environment.WebRootPath, @"\Upload\SliderImage\");
 
 			if (!ModelState.IsValid)
@@ -99,7 +99,7 @@ namespace ProniaWebApp.Areas.Admin.Controllers
             Slider slider = _context.Sliders.Find(id);
             _context.Sliders.Remove(slider);
             _context.SaveChanges();
-            FileManager.Delete(slider.ImgUrl, _environment.WebRootPath, @"\Upload\SliderImage\");
+            FileManager.DeleteFile(slider.ImgUrl, _environment.WebRootPath, @"\Upload\SliderImage\");
             return RedirectToAction("Index");
         }
 

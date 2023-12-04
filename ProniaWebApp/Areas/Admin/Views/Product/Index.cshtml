@@ -2,6 +2,7 @@
 @model List<Product>
 @{
 	int count = 0;
+	int tagcount = 0;
 }
 <div class="container">
 	<div class="d-flex" style="justify-content:space-around;align-items:center">
@@ -37,8 +38,12 @@
 					<td>
 						@foreach (var pt in item.ProductsTags)
 						{
-							@pt.Tag.Name
+							tagcount++;
+							@pt.Tag.Name@(item.ProductsTags.Count == tagcount ? "" : ", ")
 
+						}
+						@{
+							tagcount = 0;
 						}
 
 					</td>
