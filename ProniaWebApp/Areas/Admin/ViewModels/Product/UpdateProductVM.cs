@@ -13,6 +13,7 @@
         public IFormFile? HoverPhoto { get; set; }
         public List<ProductImagesVM> productImg { get; set; }
         public List<IFormFile> Photos { get; set; }
+        public List<int> ImageIds { get; set; }
     }
 
 	public class ProductImagesVM

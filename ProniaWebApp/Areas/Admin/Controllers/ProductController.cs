@@ -240,7 +240,7 @@ namespace ProniaWebApp.Areas.Admin.Controllers
                 return View();
             }
 
-            Product existProduct = await _context.Products.Where(p => p.Id == updateProductVM.Id).FirstOrDefaultAsync();
+            Product existProduct = await _context.Products.Include(p=>p.ProductImages).Where(p => p.Id == updateProductVM.Id).FirstOrDefaultAsync();
             if (existProduct == null)
             {
                 return View("Error");
@@ -312,8 +312,62 @@ namespace ProniaWebApp.Areas.Admin.Controllers
 
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
-        
-        }
+
+            if (updateProductVM.MainPhoto != null)
+            {
+	            if (!updateProductVM.MainPhoto.CheckType("image/"))
+				{
+					ModelState.AddModelError("MainPhoto", "Duzgun formatda sekil yerlesdirin");
+					return View();
+				}
+
+				if (!updateProductVM.MainPhoto.CheckLength(3000))
+				{
+					ModelState.AddModelError("MainPhoto", "max 3mb sekil yukleye bilersiz");
+					return View();
+				}
+
+                ProductImg newMainImages = new ProductImg()
+                {
+                    IsPrime = true,
+                    ProductId=existProduct.Id,
+                    ImgUrl = updateProductVM.MainPhoto.Upload(_env.WebRootPath,@"\Upload\Product\")
+                };
+                var oldMainPhoto = existProduct.ProductImages?.FirstOrDefault(p => p.IsPrime == true);
+                existProduct.ProductImages.Remove(oldMainPhoto);
+                existProduct.ProductImages.Add(newMainImages);
+            }
+
+			if (updateProductVM.HoverPhoto != null)
+			{
+				if (!updateProductVM.HoverPhoto.CheckType("image/"))
+				{
+					ModelState.AddModelError("HoverPhoto", "Duzgun formatda sekil yerlesdirin");
+					return View();
+				}
+
+				if (!updateProductVM.HoverPhoto.CheckLength(3000))
+				{
+					ModelState.AddModelError("HoverPhoto", "max 3mb sekil yukleye bilersiz");
+					return View();
+				}
+
+				ProductImg newHoverImages = new ProductImg()
+				{
+					IsPrime = false,
+					ProductId = existProduct.Id,
+					ImgUrl = updateProductVM.HoverPhoto.Upload(_env.WebRootPath, @"\Upload\Product\")
+				};
+				var oldHoverPhoto = existProduct.ProductImages?.FirstOrDefault(p => p.IsPrime == false);
+				existProduct.ProductImages.Remove(oldHoverPhoto);
+				existProduct.ProductImages.Add(newHoverImages);
+			}
+
+            if (updateProductVM.Photos != null)
+            {
+
+            }
+		}
 
     }
 }
