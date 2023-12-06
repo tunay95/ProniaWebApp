@@ -16,6 +16,7 @@ namespace ProniaWebApp.Controllers
         }
         public async Task<IActionResult> Index()
         {
+
             List<Slider> sliders = _context.Sliders.ToList();
             HomeVM homeVM = new HomeVM()
             {
