@@ -25,7 +25,7 @@ namespace ProniaWebApp.Controllers
                 List<CookieItemVm> deletedCookie = new List<CookieItemVm>();
                 foreach (var item in cookieItems)
                 {
-                    Product product = _context.Products.Include(p => p.ProductImages.Where(p => p.IsPrime == true)).FirstOrDefault(p => p.Id == item.Id);
+                    Product product = _context.Products.Where(p => p.IsDeleted == false).Include(p => p.ProductImages.Where(p => p.IsPrime == true)).FirstOrDefault(p => p.Id == item.Id);
                     if (product == null)
                     {
                         deletedCookie.Add(item);
@@ -39,27 +39,28 @@ namespace ProniaWebApp.Controllers
                         Count = item.Count,
                         ImgUrl = product.ProductImages.FirstOrDefault().ImgUrl
                     });
-                    if (deletedCookie.Count > 0)
+                }
+                if (deletedCookie.Count > 0)
+                {
+                    foreach (var delete in deletedCookie)
                     {
-                        foreach (var delete in deletedCookie)
-                        {
-                            cookieItems.Remove(delete);
-                        }
-                        Response.Cookies.Append("Basket", JsonConvert.SerializeObject(cookieItems));
-
+                        cookieItems.Remove(delete);
                     }
+                    Response.Cookies.Append("Basket", JsonConvert.SerializeObject(cookieItems));
 
                 }
 
             }
-                return View(basketItems);
+
+            return View(basketItems);
         }
+
 
         public IActionResult AddBasket(int id)
         {
             if (id == 0) return BadRequest();
 
-            Product product = _context.Products.FirstOrDefault(p => p.Id == id);
+            Product product = _context.Products.Where(p => p.IsDeleted == false).FirstOrDefault(p => p.Id == id);
             if (product == null) return NotFound();
 
             List<CookieItemVm> basket;
@@ -74,11 +75,14 @@ namespace ProniaWebApp.Controllers
                 {
                     existProduct.Count += 1;
                 }
-                basket.Add(new CookieItemVm()
+                else
                 {
-                    Id = id,
-                    Count = 1
-                });
+                    basket.Add(new CookieItemVm()
+                    {
+                        Id = id,
+                        Count = 1
+                    });
+                }
 
             }
 

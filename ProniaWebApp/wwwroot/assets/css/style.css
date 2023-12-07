@@ -6441,7 +6441,7 @@ blockquote p {
 }
 
 .table-content table td.product-thumbnail img {
-  width: auto;
+  width: 20%;
   height: 100%;
 }
 

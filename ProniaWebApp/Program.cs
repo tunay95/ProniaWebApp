@@ -7,7 +7,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 builder.Services.AddSession(opt =>
 {
-    opt.IdleTimeout = TimeSpan.FromSeconds(5);
+    opt.IdleTimeout = TimeSpan.FromMinutes(5);
 });
 
 
@@ -19,6 +19,7 @@ builder.Services.AddDbContext<AppDbContext>(opt =>
 
 builder.Services.AddScoped<LayoutServices>();
 var app = builder.Build();
+app.UseSession();
 app.MapControllerRoute(
             name: "areas",
             pattern: "{area:exists}/{controller=Dashboard}/{action=Index}/{id?}"
@@ -29,7 +30,6 @@ app.MapControllerRoute(
     );
 
 
-app.UseSession();
 app.UseStaticFiles();
 
 app.Run();

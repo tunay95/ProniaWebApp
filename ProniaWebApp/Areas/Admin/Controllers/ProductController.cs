@@ -21,6 +21,7 @@ namespace ProniaWebApp.Areas.Admin.Controllers
 		{
 
 			List<Product> products = await _context.Products
+				.Where(p=>p.IsDeleted==false)
 				.Include(p => p.Category)
 				.Include(p => p.ProductsTags)
 				.ThenInclude(pt => pt.Tag)
@@ -387,7 +388,7 @@ namespace ProniaWebApp.Areas.Admin.Controllers
 					{
 						IsPrime = null,
 						Product = existProduct,
-						ImgUrl = updateProductVM.HoverPhoto.Upload(_env.WebRootPath, @"\Upload\Product\")
+						ImgUrl = item.Upload(_env.WebRootPath, @"\Upload\Product\")
 					};
 
 					existProduct.ProductImages.Add(newPhoto);
@@ -420,5 +421,17 @@ namespace ProniaWebApp.Areas.Admin.Controllers
 			return RedirectToAction(nameof(Index));
 		}
 
-	}
+        public IActionResult DeleteFile(int id)
+        {
+            var product = _context.Products.Where(p => p.IsDeleted == false).FirstOrDefault(p => p.Id == id);
+            if (product is null)
+            {
+                return View("Error");
+            }
+            product.IsDeleted = true;
+            _context.SaveChanges();
+            return Ok();
+        }
+
+    }
 }

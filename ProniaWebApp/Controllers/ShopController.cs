@@ -23,6 +23,7 @@ namespace ProniaWebApp.Controllers
             if (session == null) return NotFound();
 
             Product product = _db.Products
+                .Where(p => p.IsDeleted == false)
                 .Include(p => p.Category)
                 .Include(p => p.ProductImages)
                 .Include(p => p.ProductsTags)

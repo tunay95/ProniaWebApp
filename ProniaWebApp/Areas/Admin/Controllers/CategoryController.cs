@@ -58,11 +58,16 @@ namespace ProniaWebApp.Areas.Admin.Controllers
             {
                 return View();
             }
-            Category oldcategory = _context.Categories.Find(newCategory.Id);
+            Category oldCategory = _context.Categories.Find(newCategory.Id);
+            oldCategory.Name = newCategory.Name;
             _context.SaveChanges();
 
             return RedirectToAction("Index");
         }
 
+        public string GetString()
+        {
+            return "";
+        }
     }
 }
