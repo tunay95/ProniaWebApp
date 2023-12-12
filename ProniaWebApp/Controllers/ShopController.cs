@@ -17,11 +17,7 @@ namespace ProniaWebApp.Controllers
 
         public IActionResult Detail(int? id)
         {
-            string cookie = Request.Cookies[".AspNetCore.Session"];
-            string session = HttpContext.Session.GetString("Name");
-
-            if (session == null) return NotFound();
-
+           
             Product product = _db.Products
                 .Where(p => p.IsDeleted == false)
                 .Include(p => p.Category)

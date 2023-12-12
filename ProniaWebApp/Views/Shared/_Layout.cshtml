@@ -131,12 +131,21 @@
                                             </button>
                                             <ul class="dropdown-menu"
                                                 aria-labelledby="settingButton">
-                                                <li>
-                                                    <a class="dropdown-item" href="my-account.html">My account</a>
-                                                </li>
-                                                <li>
-                                                    <a class="dropdown-item" href="login-register.html">Login | Register</a>
-                                                </li>
+                                                @if (User.Identity.IsAuthenticated)
+                                                {
+                                                    <a href="" class="font-weight-bold">@(User.Identity.Name)</a>
+
+                                                    <br>
+                                                    <a asp-controller="Account" asp-action="LogOut" class="font-weight-bold">Logout</a>
+                                                    <br>
+                                                }
+                                                else
+                                                {
+                                                <a asp-controller="Account" asp-action="Login" class="font-weight-bold" asp-route-ReturnUrl=@Context.Request.Path>Login</a>
+                                                <br>
+                                                <a asp-controller="Account" asp-action="Register">Register</a>
+                                                <br>
+                                                }
                                             </ul>
                                         </li>
                                         <li class="d-none d-lg-block">
@@ -442,12 +451,22 @@
                                             </button>
                                             <ul class="dropdown-menu"
                                                 aria-labelledby="stickysettingButton">
-                                                <li>
-                                                    <a class="dropdown-item" href="my-account.html">My account</a>
-                                                </li>
-                                                <li>
-                                                    <a class="dropdown-item" href="login-register.html">Login | Register</a>
-                                                </li>
+                                                @if (User.Identity.IsAuthenticated)
+                                                {
+                                                    <a href="" class="font-weight-bold">@(User.Identity.Name)</a>
+
+                                                    <br>
+                                                    <a asp-controller="Account" asp-action="LogOut" class="font-weight-bold">Logout</a>
+                                                    <br>
+                                                }
+                                                else
+                                                {
+                                                    <a asp-controller="Account" asp-action="Login" class="font-weight-bold">Login</a>
+                                                    <br>
+                                                    <a asp-controller="Account" asp-action="Register">Register</a>
+                                                    <br>
+                                                }
+                                           
                                             </ul>
                                         </li>
                                         <li class="d-none d-lg-block">

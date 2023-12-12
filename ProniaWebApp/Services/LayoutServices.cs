@@ -9,14 +9,15 @@ namespace ProniaWebApp.Services
         AppDbContext _context;
         IHttpContextAccessor _http;
 
-        public LayoutServices(IHttpContextAccessor http)
+        public LayoutServices(AppDbContext appDbContext,IHttpContextAccessor http)
         {
             _http = http;
+            _context = appDbContext;
         }
 
         public LayoutServices(AppDbContext context)
         {
-            _context = context;
+            
         }
 
 

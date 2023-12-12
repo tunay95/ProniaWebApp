@@ -1,4 +1,5 @@
-﻿using Microsoft.Build.Evaluation;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.Build.Evaluation;
 using Microsoft.EntityFrameworkCore;
 using ProniaWebApp.Areas.Admin.ViewModels.Product;
 using ProniaWebApp.Helper;
@@ -7,6 +8,7 @@ using ProniaWebApp.Models;
 namespace ProniaWebApp.Areas.Admin.Controllers
 {
 	[Area("Admin")]
+	[Authorize]
 	public class ProductController : Controller
 	{
 		AppDbContext _context { get; set; }
